@@ -5,8 +5,6 @@ function getStringLenght(stg,length) {
   return false;
 }
 
-console.log(getStringLenght('hbbhbhbhb',2));
-
 function getPalindrome(isPalindrome) {
   const checkString = isPalindrome.replaceAll(' ', '').toLowerCase();
   let reverseString = '';
