@@ -1,9 +1,11 @@
 function getStringLenght(stg,length) {
-  if (stg.length <= length) {
+  if (stg.length >= length) {
     return true;
   }
   return false;
 }
+
+console.log(getStringLenght('hbbhbhbhb',2));
 
 function getPalindrome(isPalindrome) {
   const checkString = isPalindrome.replaceAll(' ', '').toLowerCase();
