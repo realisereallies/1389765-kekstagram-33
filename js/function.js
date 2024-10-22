@@ -1,5 +1,5 @@
 function getStringLenght(stg,length) {
-  if (stg.length <= length) {
+  if (stg.length >= length) {
     return true;
   }
   return false;
