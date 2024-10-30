@@ -21,6 +21,7 @@ const descriptions = [
   'Простое удовольствие от жизни - смотреть на мир сквозь объектив.',
   'Момент, запечатленный на пленке, - это кусочек вечности.'
 ];
+
 const OBJECT_COUNT = 25;
 
 const getRandomInteger = (a, b) => {
@@ -34,20 +35,35 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const similarObject = [];
 const usedIds = new Set();
+let commentIdCounter = 1;
 
 while (similarObject.length < OBJECT_COUNT) {
   const newId = getRandomInteger(1, 25);
 
   if (!usedIds.has(newId)) {
     usedIds.add(newId);
+
+    const commentCount = getRandomInteger(0, 30);
+    const comments = [];
+
+    for (let i = 0; i < commentCount; i++) {
+      comments.push({
+        id: commentIdCounter++,
+        avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+        message: `${getRandomArrayElement(messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(messages) : ''}`,
+        name: getRandomArrayElement(names),
+      });
+    }
+
     similarObject.push({
       id: newId,
       url: `img/avatar-${newId}.svg`,
       description: getRandomArrayElement(descriptions),
-      message: getRandomArrayElement(messages),
+      coments: comments,
       likes: getRandomInteger(15, 1000),
       name: getRandomArrayElement(names)
     });
   }
 }
 
+console.log(similarObject);
