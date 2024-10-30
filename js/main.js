@@ -1,6 +1,6 @@
-const names = ['Иван', 'Мария', 'Алексей', 'Ольга', 'Дмитрий', 'Екатерина', 'Сергей', 'Анна'];
+const Names = ['Иван', 'Мария', 'Алексей', 'Ольга', 'Дмитрий', 'Екатерина', 'Сергей', 'Анна'];
 
-const messages = [
+const Messages = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -9,7 +9,7 @@ const messages = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const descriptions = [
+const Descriptions = [
   'Закат, море, спокойствие - все, что нужно для счастья.',
   'Лето, солнце, море - идеальный рецепт для отличного настроения!',
   'Путешествие - это жизнь, а жизнь - это приключение!',
@@ -22,7 +22,7 @@ const descriptions = [
   'Момент, запечатленный на пленке, - это кусочек вечности.'
 ];
 
-const OBJECT_COUNT = 25;
+const MaxObject = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -37,8 +37,8 @@ const similarObject = [];
 const usedIds = new Set();
 let commentIdCounter = 1;
 
-while (similarObject.length < OBJECT_COUNT) {
-  const newId = getRandomInteger(1, 25);
+while (similarObject.length < MaxObject) {
+  const newId = getRandomInteger(1, MaxObject);
 
   if (!usedIds.has(newId)) {
     usedIds.add(newId);
@@ -50,18 +50,18 @@ while (similarObject.length < OBJECT_COUNT) {
       comments.push({
         id: commentIdCounter++,
         avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-        message: `${getRandomArrayElement(messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(messages) : ''}`,
-        name: getRandomArrayElement(names),
+        message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
+        name: getRandomArrayElement(Names),
       });
     }
 
     similarObject.push({
       id: newId,
       url: `img/avatar-${newId}.svg`,
-      description: getRandomArrayElement(descriptions),
+      description: getRandomArrayElement(Descriptions),
       coments: comments,
       likes: getRandomInteger(15, 1000),
-      name: getRandomArrayElement(names)
+      name: getRandomArrayElement(Names)
     });
   }
 }
