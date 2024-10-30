@@ -65,5 +65,3 @@ while (similarObject.length < OBJECT_COUNT) {
     });
   }
 }
-
-console.log(similarObject);
