@@ -21,10 +21,10 @@ const Descriptions = [
   'Фотография - это не просто картинка, это история, которую она рассказывает.',
   'Красота в деталях, а детали создают шедевр.',
   'Простое удовольствие от жизни - смотреть на мир сквозь объектив.',
-  'Момент, запечатленный на пленке, - это кусочек вечности.'
+  'Момент, запечатленный на пленке, - это кусочек вечности'
 ];
 
-const MaxObject = 25;
+const MaxObject = 12;
 
 const similarObject = [];
 const usedIds = new Set();
@@ -50,9 +50,9 @@ while (similarObject.length < MaxObject) {
 
     similarObject.push({
       id: newId,
-      url: `img/avatar-${newId}.svg`,
+      url: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       description: getRandomArrayElement(Descriptions),
-      coments: comments,
+      comments: comments,
       likes: getRandomInteger(15, 1000),
       name: getRandomArrayElement(Names)
     });
