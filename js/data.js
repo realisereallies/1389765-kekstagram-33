@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement} from './util.js';
+import { getRandomInteger, getRandomArrayElement } from './util.js';
 
 const Names = ['Иван', 'Мария', 'Алексей', 'Ольга', 'Дмитрий', 'Екатерина', 'Сергей', 'Анна'];
 
@@ -27,36 +27,40 @@ const Descriptions = [
 const MaxObject = 12;
 
 const similarObject = [];
-const usedIds = new Set();
+
 let commentIdCounter = 1;
 
-while (similarObject.length < MaxObject) {
-  const newId = getRandomInteger(1, MaxObject);
+let similarObjectIdCounter = 1; // счетчик для ID объектов similarObject
 
-  if (!usedIds.has(newId)) {
-    usedIds.add(newId);
+for (let i = 0; i < MaxObject; i++) {
+  const commentCount = getRandomInteger(0, 30);
+  const comments = [];
 
-    const commentCount = getRandomInteger(0, 30);
-    const comments = [];
-
-    for (let i = 0; i < commentCount; i++) {
-      comments.push({
-        id: commentIdCounter++,
-        avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-        message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
-        name: getRandomArrayElement(Names),
-      });
-    }
-
-    similarObject.push({
-      id: newId,
-      url: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      description: getRandomArrayElement(Descriptions),
-      comments: comments,
-      likes: getRandomInteger(15, 1000),
-      name: getRandomArrayElement(Names)
+  for (let j = 0; j < commentCount; j++) {
+    comments.push({
+      id: commentIdCounter++,
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
+      name: getRandomArrayElement(Names),
     });
   }
+
+  similarObject.push({
+    id: similarObjectIdCounter++, // порядковый ID для объекта
+    url: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    description: getRandomArrayElement(Descriptions),
+    comments: comments,
+    likes: getRandomInteger(15, 1000),
+    name: getRandomArrayElement(Names),
+    dataId: `data-${similarObjectIdCounter}`
+
+  });
 }
 
-export { similarObject };
+function getCommentsById(similarObjects, id) {
+  const imageObject = similarObjects.find((image) => image.id === id);
+  return imageObject ? imageObject.comments : [];
+}
+
+
+export { similarObject, getCommentsById };
