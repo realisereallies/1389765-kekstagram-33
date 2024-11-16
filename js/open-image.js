@@ -4,6 +4,7 @@ import { renderComments } from './render-image.js';
 
 pictureModule.renderPictures(similarObject);
 
+
 const similarObjectsCopy = Array.from(similarObject); // создаю копию массива, чтобы получить из нее комментарии
 
 const bigPicture = document.querySelector('.big-picture');
