@@ -1,5 +1,3 @@
-import {similarObject} from'./data.js';
-import './util.js';
-import {pictureModule } from './module.js';
+import './open-image.js';
 
-pictureModule.renderPictures(similarObject);
+
