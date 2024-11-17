@@ -49,7 +49,7 @@ for (let i = 0; i < MaxObject; i++) {
     comments.push({
       id: commentIdCounter++,
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ""}`,
+      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
       name: getRandomArrayElement(Names),
     });
   }
