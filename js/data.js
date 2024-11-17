@@ -1,6 +1,15 @@
-import { getRandomInteger, getRandomArrayElement } from './util.js';
+import { getRandomArrayElement, getRandomInteger } from './util.js';
 
-const Names = ['Иван', 'Мария', 'Алексей', 'Ольга', 'Дмитрий', 'Екатерина', 'Сергей', 'Анна'];
+const Names = [
+  'Иван',
+  'Мария',
+  'Алексей',
+  'Ольга',
+  'Дмитрий',
+  'Екатерина',
+  'Сергей',
+  'Анна',
+];
 
 const Messages = [
   'Всё отлично',
@@ -8,7 +17,7 @@ const Messages = [
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
 const Descriptions = [
@@ -21,10 +30,10 @@ const Descriptions = [
   'Фотография - это не просто картинка, это история, которую она рассказывает.',
   'Красота в деталях, а детали создают шедевр.',
   'Простое удовольствие от жизни - смотреть на мир сквозь объектив.',
-  'Момент, запечатленный на пленке, - это кусочек вечности'
+  'Момент, запечатленный на пленке, - это кусочек вечности',
 ];
 
-const MaxObject = 12;
+const MaxObject = 24;
 
 const similarObject = [];
 
@@ -40,27 +49,20 @@ for (let i = 0; i < MaxObject; i++) {
     comments.push({
       id: commentIdCounter++,
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
+      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ""}`,
       name: getRandomArrayElement(Names),
     });
   }
 
   similarObject.push({
     id: similarObjectIdCounter++, // порядковый ID для объекта
-    url: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    url: `photos/${similarObjectIdCounter}.jpg`,
     description: getRandomArrayElement(Descriptions),
     comments: comments,
     likes: getRandomInteger(15, 1000),
     name: getRandomArrayElement(Names),
-    dataId: `data-${similarObjectIdCounter}`
-
+    dataId: `data-${similarObjectIdCounter}`,
   });
 }
 
-function getCommentsById(similarObjects, id) {
-  const imageObject = similarObjects.find((image) => image.id === id);
-  return imageObject ? imageObject.comments : [];
-}
-
-
-export { similarObject, getCommentsById };
+export {similarObject };
