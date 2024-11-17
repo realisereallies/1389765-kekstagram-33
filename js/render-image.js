@@ -1,23 +1,26 @@
+const pictureTemplate = document.querySelector('#picture').content;
+const picturesContainer = document.querySelector('.pictures');
 
-const socialComment = document.querySelector('.social__comment');
 
-const createCommentElement = (comment) => {
-  const commentElement = socialComment.cloneNode(true);
-  const socialAvatar = commentElement.querySelector('.social__picture');
-  socialAvatar.src = comment.avatar;
-  socialAvatar.alt = comment.name;
-  commentElement.querySelector('.social__text').textContent = comment.message;
-  return commentElement;
+const createPictureElement = (picture, onImageClick) => {
+  const pictureElement = pictureTemplate.cloneNode(true);
+  const image = pictureElement.querySelector('.picture__img');
+  image.src = picture.url;
+  image.alt = picture.description;
+  const likes = pictureElement.querySelector('.picture__likes');
+  likes.textContent = picture.likes;
+  const comments = pictureElement.querySelector('.picture__comments');
+  comments.textContent = picture.comments.length;
+  image.addEventListener('click', () => onImageClick(picture));
+  return pictureElement;
 };
 
-const renderComments = (comments) => {
+// Функция для добавления карточки в DOM
+export const renderPictures = (pictureData, onImageClick) => {
   const fragment = document.createDocumentFragment();
-  comments.forEach((comment) => {
-    const commentElement = createCommentElement(comment);
-    fragment.appendChild(commentElement);
+  pictureData.forEach((picture) => {
+    const pictureElement = createPictureElement(picture, onImageClick);
+    fragment.appendChild(pictureElement);
   });
-  const commentsContainer = document.querySelector('.social__comments');
-  commentsContainer.appendChild(fragment);
+  picturesContainer.appendChild(fragment);
 };
-
-export {renderComments};
