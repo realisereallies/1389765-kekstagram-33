@@ -1,4 +1,5 @@
 import { renderComments } from './render-comment.js';
+import { isEscape } from './util.js';
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
 const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
@@ -56,7 +57,8 @@ bigPictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
 });
 document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault(); bigPicture.classList.add('hidden');
+  if (isEscape(evt)) {
+    evt.preventDefault();
+    bigPicture.classList.add('hidden');
   }
 });
