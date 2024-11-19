@@ -56,7 +56,6 @@ commentsLoader.addEventListener('click', loadComments);
 bigPictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
 });
-
 document.addEventListener('keydown', (evt) => {
   if (isEscape(evt)) {
     evt.preventDefault();
