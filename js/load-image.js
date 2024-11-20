@@ -8,6 +8,14 @@ const body = document.body;
 const commentInput = document.querySelector('.text__description');
 const hashtagsInput = document.querySelector('.text__hashtags');
 
+new Pristine(uploadInput);
+
+const pristine = new Pristine(uploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+});
+
 //показ окна
 uploadInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
@@ -31,13 +39,6 @@ function closeOverlay() {
 }
 
 //валидация полей
-new Pristine(uploadInput);
-
-const pristine = new Pristine(uploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error',
-});
 
 uploadForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate(); // Проверяет валидность полей
