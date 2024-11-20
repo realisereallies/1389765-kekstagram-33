@@ -1,53 +1,63 @@
-import { similarObject} from './data.js';
-import { pictureModule } from './module.js';
-import { renderComments } from './render-image.js';
-
-pictureModule.renderPictures(similarObject);
-
-
-const similarObjectsCopy = Array.from(similarObject);// создаю копию массива, что бы получить из нее комментарии
-
+import { renderComments } from './render-comment.js';
+import { isEscape } from './util.js';
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
-const socialCommentCount = document.querySelector('.social__comment-count');
-const socialCaption = document.querySelector('.social__caption');
 const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
 const likesCount = document.querySelector('.likes-count');
 const bigPictureImage = document.querySelector('.big-picture__img img');
-const pictureLinks = document.querySelectorAll('.picture');
 const commentsLoader = document.querySelector('.comments-loader');
 const socialCommentsList = document.querySelector('.social__comments');
+const socialCommentShownCount = document.querySelector('.social__comment-shown-count'); // Элемент для отображения показанных комментариев
 
-function openBigPicture(evt) {
+
+const commentsToLoad = 5;
+let loadedComments = 0;
+let currentImageData;
+
+export function openBigPicture(dataImage) {
   bigPicture.classList.remove('hidden');
-  socialCommentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
   document.body.classList.add('modal-open');
-
   socialCommentsList.innerHTML = '';
-  likesCount.textContent = evt.currentTarget.querySelector('.picture__likes').textContent;
-  socialCommentTotalCount.textContent = evt.currentTarget.querySelector('.picture__comments').textContent;
+  likesCount.textContent = dataImage.likes;
+  socialCommentTotalCount.textContent = dataImage.comments.length;
+  bigPictureImage.src = dataImage.url;
 
-  const currentImage = evt.currentTarget.querySelector('.picture__img');
-  bigPictureImage.src = currentImage.src;
-  socialCaption.textContent = currentImage.alt;
+  currentImageData = dataImage; // Сохраняем данные изображения
+  loadedComments = 0;
+  loadComments();
 
-  const imageId = evt.currentTarget.dataset.id; // получаю id как строку
-  const currentImageData = similarObjectsCopy.find((image) => image.id === Number(imageId)); // привожу imageId к числу для сравнения
+  // обработчик события для кнопки загрузки комментариев, добавляем только один раз
+  commentsLoader.addEventListener('click', loadComments, { once: true });
 
-  renderComments(currentImageData.comments);
+  // скрываем кнопку, если комментарии закончились
+  if (loadedComments >= dataImage.comments.length) {
+    commentsLoader.classList.add('hidden');
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
 }
 
-pictureLinks.forEach((pictureLink) => { //
-  pictureLink.addEventListener('click', openBigPicture);
-});
+function loadComments() {
+  const totalComments = currentImageData.comments.length;
+  const commentsToLoadNow = Math.min(commentsToLoad, totalComments - loadedComments);
+  const limitedComments = currentImageData.comments.slice(loadedComments, loadedComments + commentsToLoadNow);
+
+  renderComments(limitedComments);
+  loadedComments += limitedComments.length;
+  socialCommentShownCount.textContent = loadedComments;
+
+  if (loadedComments >= totalComments) {
+    commentsLoader.classList.add('hidden');
+  }
+}
+
+commentsLoader.addEventListener('click', loadComments);
 
 bigPictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
 });
-
 document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscape(evt)) {
     evt.preventDefault();
     bigPicture.classList.add('hidden');
   }
