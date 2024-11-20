@@ -8,10 +8,3 @@ const openBigImageCb = (dataImage) => {
 };
 
 renderPictures(similarObject, openBigImageCb);
-
-const openBigImageCb = (dataImage) => {
-  openBigPicture(dataImage);
-};
-
-renderPictures(similarObject, openBigImageCb);
-
