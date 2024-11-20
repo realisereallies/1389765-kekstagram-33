@@ -1,4 +1,6 @@
 import './load-image.js';
+import './scale-control.js';
+import './effects-control.js';
 import { similarObject } from './data.js';
 import { openBigPicture } from './open-image.js';
 import { renderPictures } from './render-image.js';
