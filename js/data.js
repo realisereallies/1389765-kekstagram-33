@@ -76,6 +76,6 @@ for (let i = 0; i < MaxObject; i++) {
     name: getRandomArrayElement(Names),
     dataId: `data-${similarObjectIdCounter}`,
   });
-}
+}}
 
 export {similarObject };
