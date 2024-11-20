@@ -37,14 +37,27 @@ const MaxObject = 24;
 
 const similarObject = [];
 
+
 let commentIdCounter = 1;
 
+let similarObjectIdCounter = 1; // счетчик для ID объектов similarObject
 let similarObjectIdCounter = 1; // счетчик для ID объектов similarObject
 
 for (let i = 0; i < MaxObject; i++) {
   const commentCount = getRandomInteger(0, 30);
   const comments = [];
+for (let i = 0; i < MaxObject; i++) {
+  const commentCount = getRandomInteger(0, 30);
+  const comments = [];
 
+  for (let j = 0; j < commentCount; j++) {
+    comments.push({
+      id: commentIdCounter++,
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
+      name: getRandomArrayElement(Names),
+    });
+  }
   for (let j = 0; j < commentCount; j++) {
     comments.push({
       id: commentIdCounter++,
