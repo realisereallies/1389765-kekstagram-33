@@ -16,6 +16,14 @@ export const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
+new Pristine(uploadInput);
+
+const pristine = new Pristine(uploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+});
+
 //показ окна
 uploadInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
