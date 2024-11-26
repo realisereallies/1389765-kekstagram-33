@@ -1,16 +1,16 @@
 import {isEscape} from './util.js';
 
-const uploadForm = document.querySelector('.img-upload__form');
+export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
 const overlay = document.querySelector('.img-upload__overlay');
 const overlayCloseButton = document.querySelector('.img-upload__cancel');
 const body = document.body;
-const commentInput = document.querySelector('.text__description');
-const hashtagsInput = document.querySelector('.text__hashtags');
+export const commentInput = document.querySelector('.text__description');
+export const hashtagsInput = document.querySelector('.text__hashtags');
 
 new Pristine(uploadInput);
 
-const pristine = new Pristine(uploadForm, {
+export const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
@@ -22,31 +22,27 @@ uploadInput.addEventListener('change', () => {
   body.classList.add('modal-open');
 });
 //скрытие окна
+
 document.addEventListener('keydown', (evt) => {
   if (isEscape(evt)) {
-    if (document.activeElement !== commentInput && document.activeElement !== hashtagsInput) {
+    // Check if error or success message is displayed
+    const errorExists = document.querySelector('.error') !== null; // Adjust '.error' if needed
+    const successExists = document.querySelector('.success') !== null; // Adjust '.success' if needed
+
+    if (!errorExists && !successExists && document.activeElement !== commentInput && document.activeElement !== hashtagsInput) {
       evt.preventDefault();
       closeOverlay();
     }
   }
 });
+
 overlayCloseButton.addEventListener('click', closeOverlay);
 
-function closeOverlay() {
+export function closeOverlay() {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   uploadInput.value = '';
 }
-
-//валидация полей
-
-uploadForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate(); // Проверяет валидность полей
-
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
 
 pristine.addValidator(commentInput,
   (value) => value.length <= 140,
@@ -72,3 +68,4 @@ pristine.addValidator(hashtagsInput, (value) => {
 
   return true;
 }, 'Хэштеги должны начинаться с # и содержать только буквы и цифры (макс. 20 символов). Не более 5 уникальных хэштегов.');
+
