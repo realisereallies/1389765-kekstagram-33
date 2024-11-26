@@ -11,5 +11,5 @@ export const fetchData = () => fetch(
     return response.json();
   })
   .catch((error) => {
-    console.error('Ошибка при получении данных:', error);
+    throw error;
   });
