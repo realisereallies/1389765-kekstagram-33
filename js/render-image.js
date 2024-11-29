@@ -24,3 +24,4 @@ export const renderPictures = (pictureData, onImageClick) => {
   });
   picturesContainer.appendChild(fragment);
 };
+
