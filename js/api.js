@@ -1,11 +1,10 @@
+
 import { getDataLink, sendDataLink } from './data';
 
 export const getData = () => fetch(
   getDataLink)
   .then((response) => {
     if (!response.ok) {
-
-
       throw new Error(`Ошибка запроса: ${response.status}`);
     }
     return response.json();
