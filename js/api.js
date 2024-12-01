@@ -1,4 +1,3 @@
-
 import { getDataLink, sendDataLink } from './data';
 
 export const getData = () => fetch(
