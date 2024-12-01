@@ -1,5 +1,6 @@
 import './scale-control.js';
 import './effects-control.js';
+import { sortPictures } from './filters-module.js';
 import {openDataError} from './data-error.js';
 import {getData} from './api.js';
 import {closeOverlay} from './load-image.js';
@@ -13,11 +14,14 @@ const openBigImageCb = (dataImage) => {
 };
 
 getData()
-  .then((wizards) => {
-    renderPictures(wizards, openBigImageCb);
+  .then((pictures) => {
+    renderPictures(pictures, openBigImageCb);
+    sortPictures (pictures, openBigImageCb);
+    const imgFilters = document.querySelector('.img-filters');
+    imgFilters.classList.remove('img-filters--inactive');
   })
   .catch(() => {
-    openDataError('');
+    openDataError();
   });
 
 

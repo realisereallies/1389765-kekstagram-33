@@ -67,4 +67,12 @@ for (let i = 0; i < MaxObject; i++) {
   });
 }
 
+export function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 export {similarObject };

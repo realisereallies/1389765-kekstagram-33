@@ -18,10 +18,14 @@ const createPictureElement = (picture, onImageClick) => {
 // Функция для добавления карточки в DOM
 export const renderPictures = (pictureData, onImageClick) => {
   const fragment = document.createDocumentFragment();
-  pictureData.forEach((picture) => {
-    const pictureElement = createPictureElement(picture, onImageClick);
+  let picture = picturesContainer.querySelector('.picture');
+  while(picture) {
+    picture.remove();
+    picture = picturesContainer.querySelector('.picture');
+  }
+  pictureData.forEach((pictures) => {
+    const pictureElement = createPictureElement(pictures, onImageClick);
     fragment.appendChild(pictureElement);
   });
   picturesContainer.appendChild(fragment);
 };
-
