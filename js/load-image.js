@@ -8,6 +8,7 @@ const body = document.body;
 export const commentInput = document.querySelector('.text__description');
 export const hashtagsInput = document.querySelector('.text__hashtags');
 
+
 new Pristine(uploadInput);
 
 export const pristine = new Pristine(uploadForm, {
