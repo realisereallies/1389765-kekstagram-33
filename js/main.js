@@ -17,7 +17,7 @@ getData()
     renderPictures(wizards, openBigImageCb);
   })
   .catch(() => {
-    openDataError('Ошибка загрузки данных');
+    openDataError('');
   });
 
 

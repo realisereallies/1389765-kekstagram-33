@@ -1,17 +1,19 @@
-import {openDataError} from './data-error';
+import { getDataLink, sendDataLink } from './data';
 
 export const getData = () => fetch(
-  'https://32.javascript.htmlacademy.pro/kekstagram/data')
+  getDataLink)
   .then((response) => {
     if (!response.ok) {
 
-      openDataError('');
+
       throw new Error(`Ошибка запроса: ${response.status}`);
     }
     return response.json();
   });
+
+
 export const sendData = (body) => fetch(
-  'https://32.javascript.htmlacademy.pro/kekstagram',
+  sendDataLink,
   {
     method: 'POST',
     body,

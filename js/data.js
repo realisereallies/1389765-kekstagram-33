@@ -33,10 +33,12 @@ const Descriptions = [
   'Момент, запечатленный на пленке, - это кусочек вечности',
 ];
 
+export const getDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+export const sendDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram';
+
 const MaxObject = 24;
 
 const similarObject = [];
-
 
 let commentIdCounter = 1;
 
