@@ -7,6 +7,20 @@ const overlayCloseButton = document.querySelector('.img-upload__cancel');
 const body = document.body;
 export const commentInput = document.querySelector('.text__description');
 export const hashtagsInput = document.querySelector('.text__hashtags');
+const previewImage = document.querySelector('.img-upload__preview img');
+const fileTypes = ['jpg', 'jpeg', 'png'];
+
+//показ окна
+uploadInput.addEventListener('change', () => {
+  overlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  const file = uploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = fileTypes.some((it) => fileName.endsWith(it));
+  if (matches) {
+    previewImage.src = URL.createObjectURL(file);
+  }
+});
 
 
 new Pristine(uploadInput);
@@ -17,11 +31,6 @@ export const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-//показ окна
-uploadInput.addEventListener('change', () => {
-  overlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-});
 //скрытие окна
 
 document.addEventListener('keydown', (evt) => {
