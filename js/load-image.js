@@ -22,7 +22,6 @@ uploadInput.addEventListener('change', () => {
   }
 });
 
-
 new Pristine(uploadInput);
 
 export const pristine = new Pristine(uploadForm, {
