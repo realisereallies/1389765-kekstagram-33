@@ -19,10 +19,13 @@ getData()
     sortPictures (pictures, openBigImageCb);
     const imgFilters = document.querySelector('.img-filters');
     imgFilters.classList.remove('img-filters--inactive');
+
   })
   .catch(() => {
-    openDataError();
+    openDataError('Не удалось загрузить данные');
   });
 
 
 setUserFormSubmit(closeOverlay);
+
+

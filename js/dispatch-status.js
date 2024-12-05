@@ -1,6 +1,7 @@
-import {uploadForm, pristine} from './load-image.js';
+import {uploadForm, pristine, closeOverlay, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
 import {handleEscape} from './util.js';
+
 
 const successTemplate = document.querySelector('#success');
 const errorTemplate = document.querySelector('#error');
@@ -32,8 +33,11 @@ export const handleOutsideClick = (evt) => {
   }
 };
 const clearForm = () => {
-  uploadForm.reset();
   pristine.reset();
+  uploadForm.reset();
+
+  hashtagsInput.value = '';
+  commentInput.textContent = '';
 };
 
 const showSuccessMessage = () => {
@@ -42,11 +46,19 @@ const showSuccessMessage = () => {
     document.removeEventListener('keydown', handleEscape);
     document.removeEventListener('click', handleOutsideClick);
     clearForm();
+    closeOverlay(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
   });
-  document.body.insertBefore(successMessage, document.body.lastChild);
+
+  // Используем более надежный способ добавления сообщения в DOM
+  const messageContainer = document.createElement('div');
+  messageContainer.id = 'message-container'; // Создаем контейнер для сообщений
+  messageContainer.appendChild(successMessage);
+  document.body.appendChild(messageContainer);
+
   document.addEventListener('keydown', handleEscape);
   document.addEventListener('click', handleOutsideClick);
 };
+
 
 const showErrorMessage = (message) => {
   const errorElement = createMessage(errorTemplate, 'error', () => {
@@ -62,14 +74,18 @@ const showErrorMessage = (message) => {
 };
 
 
-export const setUserFormSubmit = () => {
-  uploadForm.addEventListener('submit', (evt) => {
+export const setUserFormSubmit = async () => { // async
+  uploadForm.addEventListener('submit', async (evt) => { // async
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
-      sendData(new FormData(evt.target))
-        .then(() => showSuccessMessage())
-        .catch(() => showErrorMessage('Ошибка загрузки файла'));
+      try {
+        await sendData(new FormData(evt.target)); // await
+        await showSuccessMessage(); // await
+        clearForm ();
+      } catch (error) {
+        showErrorMessage('Ошибка загрузки файла');
+      }
     }
   });
 };

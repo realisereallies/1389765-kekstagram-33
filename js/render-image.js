@@ -7,6 +7,7 @@ const createPictureElement = (picture, onImageClick) => {
   const image = pictureElement.querySelector('.picture__img');
   image.src = picture.url;
   image.alt = picture.description;
+
   const likes = pictureElement.querySelector('.picture__likes');
   likes.textContent = picture.likes;
   const comments = pictureElement.querySelector('.picture__comments');
