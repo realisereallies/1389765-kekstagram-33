@@ -1,6 +1,7 @@
 import {uploadForm, pristine, closeOverlay, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
 import {handleEscape} from './util.js';
+import { scaleValueInput } from './scale-control.js';
 
 
 const successTemplate = document.querySelector('#success');
@@ -32,12 +33,13 @@ export const handleOutsideClick = (evt) => {
     document.removeEventListener('click', handleOutsideClick);
   }
 };
-const clearForm = () => {
+export const clearForm = () => {
   pristine.reset();
   uploadForm.reset();
-
   hashtagsInput.value = '';
   commentInput.textContent = '';
+  scaleValueInput.value = '100%';
+
 };
 
 const showSuccessMessage = () => {
@@ -45,8 +47,7 @@ const showSuccessMessage = () => {
     successMessage.remove();
     document.removeEventListener('keydown', handleEscape);
     document.removeEventListener('click', handleOutsideClick);
-    clearForm();
-    closeOverlay(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
+    clearForm(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
   });
 
   // Используем более надежный способ добавления сообщения в DOM
@@ -74,18 +75,26 @@ const showErrorMessage = (message) => {
 };
 
 
-export const setUserFormSubmit = async () => { // async
-  uploadForm.addEventListener('submit', async (evt) => { // async
+export const setUserFormSubmit = async () => {
+  uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
+    const submitButton = uploadForm.querySelector('.img-upload__submit'); // Получаем кнопку
+    submitButton.disabled = true; // Блокируем кнопку
+
     const isValid = pristine.validate();
     if (isValid) {
       try {
-        await sendData(new FormData(evt.target)); // await
-        await showSuccessMessage(); // await
-        clearForm ();
+        await sendData(new FormData(evt.target));
+        closeOverlay();
+        await showSuccessMessage();
+        clearForm();
       } catch (error) {
         showErrorMessage('Ошибка загрузки файла');
+      } finally {
+        submitButton.disabled = false; // Разблокируем кнопку в любом случае (после success или error)
       }
+    } else {
+      submitButton.disabled = false; // Разблокируем кнопку если форма не валидна
     }
   });
 };

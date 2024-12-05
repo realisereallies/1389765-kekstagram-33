@@ -1,4 +1,5 @@
 import {isEscape} from './util.js';
+import { clearForm } from './dispatch-status.js';
 
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
@@ -32,10 +33,10 @@ export const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
-  errorTextTarget: (el) => { // создаем целевой элемент для сообщений об ошибках
+  errorTextTarget: (el) => {
     const errorContainer = document.createElement('div');
     errorContainer.classList.add('error-container');
-    el.parentNode.insertBefore(errorContainer, el.nextSibling); // помещаем после поля
+    el.parentNode.insertBefore(errorContainer, el.nextSibling);
     return errorContainer;
   }
 });
@@ -50,6 +51,7 @@ document.addEventListener('keydown', (evt) => {
 
     if (!errorExists && !successExists && document.activeElement !== commentInput && document.activeElement !== hashtagsInput) {
       evt.preventDefault();
+      clearForm();
       closeOverlay();
     }
   }
