@@ -33,10 +33,12 @@ const Descriptions = [
   'Момент, запечатленный на пленке, - это кусочек вечности',
 ];
 
+export const getDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+export const sendDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram';
+
 const MaxObject = 24;
 
 const similarObject = [];
-
 
 let commentIdCounter = 1;
 
@@ -63,6 +65,14 @@ for (let i = 0; i < MaxObject; i++) {
     name: getRandomArrayElement(Names),
     dataId: `data-${similarObjectIdCounter}`,
   });
+}
+
+export function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 }
 
 export {similarObject };

@@ -8,17 +8,10 @@ const body = document.body;
 export const commentInput = document.querySelector('.text__description');
 export const hashtagsInput = document.querySelector('.text__hashtags');
 
+
 new Pristine(uploadInput);
 
 export const pristine = new Pristine(uploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error',
-});
-
-new Pristine(uploadInput);
-
-const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
