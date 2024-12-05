@@ -1,5 +1,5 @@
 import {isEscape} from './util.js';
-import { clearForm } from './dispatch-status.js';
+import {clearForm} from './dispatch-status.js';
 
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
