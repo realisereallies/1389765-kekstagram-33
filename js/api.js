@@ -1,3 +1,4 @@
+
 import { getDataLink, sendDataLink } from './data';
 
 export const getData = () => fetch(
@@ -8,7 +9,6 @@ export const getData = () => fetch(
     }
     return response.json();
   });
-
 
 export const sendData = (body) => fetch(
   sendDataLink,
