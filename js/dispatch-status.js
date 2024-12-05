@@ -4,6 +4,7 @@ import {handleEscape} from './util.js';
 import { scaleValueInput } from './scale-control.js';
 
 
+
 const successTemplate = document.querySelector('#success');
 const errorTemplate = document.querySelector('#error');
 
@@ -33,13 +34,12 @@ export const handleOutsideClick = (evt) => {
     document.removeEventListener('click', handleOutsideClick);
   }
 };
-export const clearForm = () => {
+const clearForm = () => {
   pristine.reset();
   uploadForm.reset();
+
   hashtagsInput.value = '';
   commentInput.textContent = '';
-  scaleValueInput.value = '100%';
-
 };
 
 const showSuccessMessage = () => {
@@ -47,7 +47,8 @@ const showSuccessMessage = () => {
     successMessage.remove();
     document.removeEventListener('keydown', handleEscape);
     document.removeEventListener('click', handleOutsideClick);
-    clearForm(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
+    clearForm();
+    closeOverlay(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
   });
 
   // Используем более надежный способ добавления сообщения в DOM
@@ -74,9 +75,8 @@ const showErrorMessage = (message) => {
   document.addEventListener('click', handleOutsideClick);
 };
 
-
-export const setUserFormSubmit = async () => {
-  uploadForm.addEventListener('submit', async (evt) => {
+export const setUserFormSubmit = async () => { // async
+  uploadForm.addEventListener('submit', async (evt) => { // async
     evt.preventDefault();
     const submitButton = uploadForm.querySelector('.img-upload__submit'); // Получаем кнопку
     submitButton.disabled = true; // Блокируем кнопку
@@ -84,17 +84,12 @@ export const setUserFormSubmit = async () => {
     const isValid = pristine.validate();
     if (isValid) {
       try {
-        await sendData(new FormData(evt.target));
-        closeOverlay();
-        await showSuccessMessage();
-        clearForm();
+        await sendData(new FormData(evt.target)); // await
+        await showSuccessMessage(); // await
+        clearForm ();
       } catch (error) {
         showErrorMessage('Ошибка загрузки файла');
-      } finally {
-        submitButton.disabled = false; // Разблокируем кнопку в любом случае (после success или error)
       }
-    } else {
-      submitButton.disabled = false; // Разблокируем кнопку если форма не валидна
     }
   });
 };

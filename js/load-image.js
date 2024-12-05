@@ -33,10 +33,10 @@ export const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
-  errorTextTarget: (el) => {
+  errorTextTarget: (el) => { // создаем целевой элемент для сообщений об ошибках
     const errorContainer = document.createElement('div');
     errorContainer.classList.add('error-container');
-    el.parentNode.insertBefore(errorContainer, el.nextSibling);
+    el.parentNode.insertBefore(errorContainer, el.nextSibling); // помещаем после поля
     return errorContainer;
   }
 });
