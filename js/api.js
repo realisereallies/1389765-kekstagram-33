@@ -10,7 +10,6 @@ export const getData = () => fetch(
     return response.json();
   });
 
-
 export const sendData = (body) => fetch(
 
   sendDataLink,
