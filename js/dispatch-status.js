@@ -1,6 +1,8 @@
-import {uploadForm, pristine} from './load-image.js';
+import {uploadForm, pristine, closeOverlay, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
 import {handleEscape} from './util.js';
+import { scaleValueInput } from './scale-control.js';
+
 
 const successTemplate = document.querySelector('#success');
 const errorTemplate = document.querySelector('#error');
@@ -31,9 +33,13 @@ export const handleOutsideClick = (evt) => {
     document.removeEventListener('click', handleOutsideClick);
   }
 };
-const clearForm = () => {
-  uploadForm.reset();
+export const clearForm = () => {
   pristine.reset();
+  uploadForm.reset();
+  hashtagsInput.value = '';
+  commentInput.textContent = '';
+  scaleValueInput.value = '100%';
+
 };
 
 const showSuccessMessage = () => {
@@ -41,12 +47,19 @@ const showSuccessMessage = () => {
     successMessage.remove();
     document.removeEventListener('keydown', handleEscape);
     document.removeEventListener('click', handleOutsideClick);
-    clearForm();
+    clearForm(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
   });
-  document.body.insertBefore(successMessage, document.body.lastChild);
+
+  // Используем более надежный способ добавления сообщения в DOM
+  const messageContainer = document.createElement('div');
+  messageContainer.id = 'message-container'; // Создаем контейнер для сообщений
+  messageContainer.appendChild(successMessage);
+  document.body.appendChild(messageContainer);
+
   document.addEventListener('keydown', handleEscape);
   document.addEventListener('click', handleOutsideClick);
 };
+
 
 const showErrorMessage = (message) => {
   const errorElement = createMessage(errorTemplate, 'error', () => {
@@ -62,14 +75,26 @@ const showErrorMessage = (message) => {
 };
 
 
-export const setUserFormSubmit = () => {
-  uploadForm.addEventListener('submit', (evt) => {
+export const setUserFormSubmit = async () => {
+  uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
+    const submitButton = uploadForm.querySelector('.img-upload__submit'); // Получаем кнопку
+    submitButton.disabled = true; // Блокируем кнопку
+
     const isValid = pristine.validate();
     if (isValid) {
-      sendData(new FormData(evt.target))
-        .then(() => showSuccessMessage())
-        .catch(() => showErrorMessage('Ошибка загрузки файла'));
+      try {
+        await sendData(new FormData(evt.target));
+        closeOverlay();
+        await showSuccessMessage();
+        clearForm();
+      } catch (error) {
+        showErrorMessage('Ошибка загрузки файла');
+      } finally {
+        submitButton.disabled = false; // Разблокируем кнопку в любом случае (после success или error)
+      }
+    } else {
+      submitButton.disabled = false; // Разблокируем кнопку если форма не валидна
     }
   });
 };

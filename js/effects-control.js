@@ -4,6 +4,7 @@ const imgPreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelectorAll('.effects__radio');
 let slider;
 
+
 function updateImageStyle(effect, value) {
   imgPreview.style.filter = '';
 
@@ -15,13 +16,13 @@ function updateImageStyle(effect, value) {
       imgPreview.style.filter = `sepia(${value})`;
       break;
     case 'marvin':
-      imgPreview.style.filter = `invert(${value}%)`;
+      imgPreview.style.filter = `invert(${value}%)`; // Добавлена строка
       break;
     case 'phobos':
-      imgPreview.style.filter = `blur(${value}px)`;
+      imgPreview.style.filter = `blur(${value}px)`; // Добавлена строка
       break;
     case 'heat':
-      imgPreview.style.filter = `brightness(${value})`;
+      imgPreview.style.filter = `brightness(${value})`; // Добавлена строка
       break;
     case 'none':
       break;
@@ -86,12 +87,12 @@ effectsList.forEach((radio) => {
       switch (selectedEffect) {
         case 'chrome':
         case 'sepia':
-        case 'heat':
           sliderOptions = { range: { min: 0, max: 1 }, start: 1, step: 0.1 };
           break;
         case 'marvin':
           sliderOptions = { range: { min: 0, max: 100 }, start: 100, step: 1 };
           break;
+        case 'heat':
         case 'phobos':
           sliderOptions = { range: { min: 0, max: 3 }, start: 3, step: 0.1 };
           break;

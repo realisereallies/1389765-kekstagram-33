@@ -1,5 +1,6 @@
 import { renderComments } from './render-comment.js';
 import { isEscape } from './util.js';
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
 const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
@@ -8,6 +9,8 @@ const bigPictureImage = document.querySelector('.big-picture__img img');
 const commentsLoader = document.querySelector('.comments-loader');
 const socialCommentsList = document.querySelector('.social__comments');
 const socialCommentShownCount = document.querySelector('.social__comment-shown-count'); // Элемент для отображения показанных комментариев
+const socialComment = document.querySelector('.social__caption');
+const body = document.querySelector('body');
 
 
 const commentsToLoad = 5;
@@ -18,10 +21,10 @@ export function openBigPicture(dataImage) {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
   socialCommentsList.innerHTML = '';
+  socialComment.textContent = dataImage.description;
   likesCount.textContent = dataImage.likes;
   socialCommentTotalCount.textContent = dataImage.comments.length;
   bigPictureImage.src = dataImage.url;
-
   currentImageData = dataImage; // Сохраняем данные изображения
   loadedComments = 0;
   loadComments();
@@ -55,6 +58,7 @@ commentsLoader.addEventListener('click', loadComments);
 
 bigPictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
 });
 
 document.addEventListener('keydown', (evt) => {

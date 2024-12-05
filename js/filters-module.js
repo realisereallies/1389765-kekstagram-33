@@ -12,27 +12,27 @@ function onFiltersChange (filter) {
   return filter.id;
 }
 
+let currentPictures = []; // Глобальная переменная для хранения текущего массива изображений
+
 export const sortPictures = (pictures, cb) => {
   imageFiltersButtons.forEach((currentButton) => {
     const sortPicturesDebounce = debounce((filter) => {
-      let currentPictures = pictures;
       switch (filter) {
         case 'filter-random':
-          currentPictures = sortArray(pictures)
-            .slice(0, 10);
+          currentPictures = sortArray([...pictures]).slice(0, 10); // Создаем копию и обрезаем
           break;
         case 'filter-discussed':
-          currentPictures = pictures.slice()
-            .sort(compareComments);
+          currentPictures = [...pictures].sort(compareComments); // Создаем копию и сортируем
+          break;
+        case 'filter-default': // Добавим явное имя для обычной сортировки
+          currentPictures = [...pictures]; // Создаем копию, без сортировки
           break;
         default:
-          currentPictures = pictures;
+          currentPictures = [...pictures]; // Создаем копию, без сортировки
           break;
       }
       renderPictures(currentPictures, cb);
-    },
-
-    500);
+    }, 500);
 
     currentButton.addEventListener('click', () => {
       const filterType = onFiltersChange(currentButton);

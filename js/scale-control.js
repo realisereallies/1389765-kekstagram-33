@@ -1,11 +1,11 @@
 const smallerButton = document.querySelector('.scale__control--smaller');
 const biggerButton = document.querySelector('.scale__control--bigger');
-const scaleValueInput = document.querySelector('.scale__control--value');
-const imagePreview = document.querySelector('.img-upload__preview');
+export const scaleValueInput = document.querySelector('.scale__control--value');
+export const imagePreview = document.querySelector('.img-upload__preview img');
 
-let currentScale = 100;
+export let currentScale = 100;
 
-function updateScale() {
+export function updateScale() {
   scaleValueInput.value = `${currentScale }%`;
   const scaleFactor = currentScale / 100;
   imagePreview.style.transform = `scale(${scaleFactor})`;
@@ -24,5 +24,6 @@ biggerButton.addEventListener('click', () => {
     updateScale();
   }
 });
+
 
 updateScale();
