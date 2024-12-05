@@ -34,7 +34,7 @@ const Descriptions = [
 ];
 
 export const getDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-export const sendDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram';
+export const sendDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/ ';
 
 const MaxObject = 24;
 

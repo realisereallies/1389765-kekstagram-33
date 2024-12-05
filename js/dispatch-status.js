@@ -1,6 +1,8 @@
 import {uploadForm, pristine, closeOverlay, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
 import {handleEscape} from './util.js';
+import { scaleValueInput } from './scale-control.js';
+
 
 
 const successTemplate = document.querySelector('#success');
@@ -73,10 +75,12 @@ const showErrorMessage = (message) => {
   document.addEventListener('click', handleOutsideClick);
 };
 
-
 export const setUserFormSubmit = async () => { // async
   uploadForm.addEventListener('submit', async (evt) => { // async
     evt.preventDefault();
+    const submitButton = uploadForm.querySelector('.img-upload__submit'); // Получаем кнопку
+    submitButton.disabled = true; // Блокируем кнопку
+
     const isValid = pristine.validate();
     if (isValid) {
       try {

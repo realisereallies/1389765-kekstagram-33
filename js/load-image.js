@@ -1,4 +1,5 @@
 import {isEscape} from './util.js';
+import { clearForm } from './dispatch-status.js';
 
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
@@ -50,6 +51,7 @@ document.addEventListener('keydown', (evt) => {
 
     if (!errorExists && !successExists && document.activeElement !== commentInput && document.activeElement !== hashtagsInput) {
       evt.preventDefault();
+      clearForm();
       closeOverlay();
     }
   }
