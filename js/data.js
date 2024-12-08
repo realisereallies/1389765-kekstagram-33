@@ -1,6 +1,6 @@
 import { getRandomArrayElement, getRandomInteger } from './util.js';
 
-const Names = [
+const NAMES = [
   'Иван',
   'Мария',
   'Алексей',
@@ -11,7 +11,7 @@ const Names = [
   'Анна',
 ];
 
-const Messages = [
+const MESSAGES = [
   'Всё отлично',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -20,7 +20,7 @@ const Messages = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const Descriptions = [
+const DESCRIPTIONS = [
   'Закат, море, спокойствие - все, что нужно для счастья.',
   'Лето, солнце, море - идеальный рецепт для отличного настроения!',
   'Путешествие - это жизнь, а жизнь - это приключение!',
@@ -33,36 +33,38 @@ const Descriptions = [
   'Момент, запечатленный на пленке, - это кусочек вечности',
 ];
 
-export const getDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-export const sendDataLink = 'https://32.javascript.htmlacademy.pro/kekstagram/ ';
+export const GET_DATA_LINK = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
+export const SEND_DATA_LINK = 'https://32.javascript.htmlacademy.pro/kekstagram/ ';
 
-const MaxObject = 24;
+export const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const similarObject = [];
+const MAX_OBJECTS = 24;
+
+const similarObjects = [];
 
 let commentIdCounter = 1;
 
-let similarObjectIdCounter = 1; // счетчик для ID объектов similarObject
+let similarObjectIdCounter = 1;
 
-for (let i = 0; i < MaxObject; i++) {
+for (let i = 0; i < MAX_OBJECTS; i++) {
   const commentCount = getRandomInteger(0, 30);
   const comments = [];
   for (let j = 0; j < commentCount; j++) {
     comments.push({
       id: commentIdCounter++,
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: `${getRandomArrayElement(Messages)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(Messages) : ''}`,
-      name: getRandomArrayElement(Names),
+      message: `${getRandomArrayElement(MESSAGES)} ${getRandomInteger(0, 1) === 1 ? getRandomArrayElement(MESSAGES) : ''}`,
+      name: getRandomArrayElement(NAMES),
     });
   }
 
-  similarObject.push({
+  similarObjects.push({
     id: similarObjectIdCounter++, // порядковый ID для объекта
     url: `photos/${similarObjectIdCounter}.jpg`,
-    description: getRandomArrayElement(Descriptions),
+    description: getRandomArrayElement(DESCRIPTIONS),
     comments: comments,
     likes: getRandomInteger(15, 1000),
-    name: getRandomArrayElement(Names),
+    name: getRandomArrayElement(NAMES),
     dataId: `data-${similarObjectIdCounter}`,
   });
 }
@@ -75,4 +77,3 @@ export function debounce(callback, timeoutDelay = 500) {
   };
 }
 
-export {similarObject };

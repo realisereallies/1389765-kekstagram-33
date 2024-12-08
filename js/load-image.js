@@ -1,5 +1,7 @@
 import {isEscape} from './util.js';
 import {clearForm} from './dispatch-status.js';
+import { resetEffects } from './effects-control.js';
+import {FILE_TYPES} from './data.js';
 
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');
@@ -11,15 +13,13 @@ export const hashtagsInput = document.querySelector('.text__hashtags');
 const previewImage = document.querySelector('.img-upload__preview img');
 
 
-const fileTypes = ['jpg', 'jpeg', 'png'];
-
 //показ окна
 uploadInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   const file = uploadInput.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = fileTypes.some((it) => fileName.endsWith(it));
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
     previewImage.src = URL.createObjectURL(file);
     const previewSpans = document.querySelectorAll('.effects__preview');
@@ -33,7 +33,7 @@ export const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
-  errorTextTarget: (el) => {
+  createErrorContainer: (el) => {
     const errorContainer = document.createElement('div');
     errorContainer.classList.add('error-container');
     el.parentNode.insertBefore(errorContainer, el.nextSibling);
@@ -52,12 +52,12 @@ document.addEventListener('keydown', (evt) => {
     if (!errorExists && !successExists && document.activeElement !== commentInput && document.activeElement !== hashtagsInput) {
       evt.preventDefault();
       clearForm();
-      closeOverlay();
+      overlayCloseHandler();
     }
   }
 });
 
-overlayCloseButton.addEventListener('click', closeOverlay);
+overlayCloseButton.addEventListener('click', overlayCloseHandler);
 
 export function clearMessages() {
   const errorElements = document.querySelectorAll('.error');
@@ -75,12 +75,12 @@ export function clearPristineErrors() {
   });
 }
 
-export function closeOverlay() {
+export function overlayCloseHandler() {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   uploadInput.value = '';
   previewImage.style.transform = 'scale(1)';
-  previewImage.style.filter = '';
+  resetEffects();
   const errorContainers = document.querySelectorAll('.error-container');
   errorContainers.forEach((container) => {
     container.innerHTML = '';

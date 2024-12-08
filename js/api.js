@@ -1,8 +1,8 @@
 
-import { getDataLink, sendDataLink } from './data';
+import { GET_DATA_LINK, SEND_DATA_LINK } from './data';
 
 export const getData = () => fetch(
-  getDataLink)
+  GET_DATA_LINK)
   .then((response) => {
     if (!response.ok) {
       throw new Error(`Ошибка запроса: ${response.status}`);
@@ -13,7 +13,7 @@ export const getData = () => fetch(
 
 export const sendData = (body) => fetch(
 
-  sendDataLink,
+  SEND_DATA_LINK,
 
   {
     method: 'POST',

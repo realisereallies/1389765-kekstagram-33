@@ -12,8 +12,7 @@ const socialCommentShownCount = document.querySelector('.social__comment-shown-c
 const socialComment = document.querySelector('.social__caption');
 const body = document.querySelector('body');
 
-
-const commentsToLoad = 5;
+const COMMENTS_TO_LOAD = 5;
 let loadedComments = 0;
 let currentImageData;
 
@@ -27,10 +26,10 @@ export function openBigPicture(dataImage) {
   bigPictureImage.src = dataImage.url;
   currentImageData = dataImage; // Сохраняем данные изображения
   loadedComments = 0;
-  loadComments();
+  contentLoadHandler();
 
   // обработчик события для кнопки загрузки комментариев, добавляем только один раз
-  commentsLoader.addEventListener('click', loadComments, { once: true });
+  commentsLoader.addEventListener('click', contentLoadHandler, { once: true });
 
   // скрываем кнопку, если комментарии закончились
   if (loadedComments >= dataImage.comments.length) {
@@ -40,9 +39,9 @@ export function openBigPicture(dataImage) {
   }
 }
 
-function loadComments() {
+function contentLoadHandler() {
   const totalComments = currentImageData.comments.length;
-  const commentsToLoadNow = Math.min(commentsToLoad, totalComments - loadedComments);
+  const commentsToLoadNow = Math.min(COMMENTS_TO_LOAD, totalComments - loadedComments);
   const limitedComments = currentImageData.comments.slice(loadedComments, loadedComments + commentsToLoadNow);
 
   renderComments(limitedComments);
@@ -54,7 +53,7 @@ function loadComments() {
   }
 }
 
-commentsLoader.addEventListener('click', loadComments);
+commentsLoader.addEventListener('click', contentLoadHandler);
 
 bigPictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
