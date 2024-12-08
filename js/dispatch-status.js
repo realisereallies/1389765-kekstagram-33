@@ -1,7 +1,8 @@
-import {uploadForm, pristine, closeOverlay, hashtagsInput, commentInput} from './load-image.js';
+import {uploadForm, pristine, overlayCloseHandler, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
 import {handleEscape} from './util.js';
-import { scaleValueInput } from './scale-control.js';
+import { scaleValueInput, resetScale } from './scale-control.js';
+import { resetEffects } from './effects-control.js';
 
 
 const successTemplate = document.querySelector('#success');
@@ -37,17 +38,18 @@ export const clearForm = () => {
   pristine.reset();
   uploadForm.reset();
   hashtagsInput.value = '';
-  commentInput.textContent = '';
+  commentInput.value = '';
   scaleValueInput.value = '100%';
-
+  resetScale();
 };
+
 
 const showSuccessMessage = () => {
   const successMessage = createMessage(successTemplate, 'success', () => {
     successMessage.remove();
     document.removeEventListener('keydown', handleEscape);
     document.removeEventListener('click', handleOutsideClick);
-    clearForm(); // Закрываем оверлей после нажатия на кнопку или клика вне сообщения
+    clearForm();
   });
 
   // Используем более надежный способ добавления сообщения в DOM
@@ -61,7 +63,7 @@ const showSuccessMessage = () => {
 };
 
 
-const showErrorMessage = (message) => {
+export const showErrorMessage = (message) => {
   const errorElement = createMessage(errorTemplate, 'error', () => {
     errorElement.remove();
     document.removeEventListener('keydown', handleEscape);
@@ -78,23 +80,36 @@ const showErrorMessage = (message) => {
 export const setUserFormSubmit = async () => {
   uploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    const submitButton = uploadForm.querySelector('.img-upload__submit'); // Получаем кнопку
-    submitButton.disabled = true; // Блокируем кнопку
+    const submitButton = uploadForm.querySelector('.img-upload__submit');
+    submitButton.disabled = true;
 
     const isValid = pristine.validate();
     if (isValid) {
       try {
         await sendData(new FormData(evt.target));
-        closeOverlay();
+        overlayCloseHandler();
+        resetEffects();
         await showSuccessMessage();
         clearForm();
       } catch (error) {
-        showErrorMessage('Ошибка загрузки файла');
+        // Более подробная обработка ошибок для лучшего информирования пользователя
+        const errorMessage = error.message;
+        if (errorMessage.includes('Некорректные данные')) {
+          showErrorMessage('Пожалуйста, проверьте правильность введенных данных.');
+        } else if (errorMessage.includes('Ошибка сети')) {
+          showErrorMessage('Ошибка загрузки файла');
+        } else if (errorMessage.includes('Ошибка авторизации')) {
+          showErrorMessage('Ошибка авторизации. Пожалуйста, авторизуйтесь.');
+        } else if (errorMessage.includes('Ошибка сервера')) {
+          showErrorMessage('Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.');
+        } else {
+          showErrorMessage('Ошибка загрузки файла');
+        }
       } finally {
-        submitButton.disabled = false; // Разблокируем кнопку в любом случае (после success или error)
+        submitButton.disabled = false;
       }
     } else {
-      submitButton.disabled = false; // Разблокируем кнопку если форма не валидна
+      submitButton.disabled = false;
     }
   });
 };

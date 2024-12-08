@@ -3,6 +3,7 @@ import { debounce } from './data.js';
 import { sortArray, compareComments } from './util';
 
 const imageFiltersButtons = document.querySelectorAll('.img-filters__button');
+let currentPictures = []; // Глобальная переменная для хранения текущего массива изображений
 
 function onFiltersChange (filter) {
   imageFiltersButtons.forEach((button) => {
@@ -12,7 +13,6 @@ function onFiltersChange (filter) {
   return filter.id;
 }
 
-let currentPictures = []; // Глобальная переменная для хранения текущего массива изображений
 
 export const sortPictures = (pictures, cb) => {
   imageFiltersButtons.forEach((currentButton) => {

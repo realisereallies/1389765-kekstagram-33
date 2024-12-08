@@ -2,8 +2,11 @@ const effectsSlider = document.querySelector('.effect-level__slider');
 const effectsValue = document.querySelector('.effect-level__value');
 const imgPreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelectorAll('.effects__radio');
+const effectLevelContainer = document.querySelector('.img-upload__effect-level'); //Захват элемента для скрытия
+const effectNone = document.getElementById('effect-none');
+effectNone.checked = true;
+effectNone.dispatchEvent(new Event('change'));
 let slider;
-
 
 function updateImageStyle(effect, value) {
   imgPreview.style.filter = '';
@@ -16,13 +19,13 @@ function updateImageStyle(effect, value) {
       imgPreview.style.filter = `sepia(${value})`;
       break;
     case 'marvin':
-      imgPreview.style.filter = `invert(${value}%)`; // Добавлена строка
+      imgPreview.style.filter = `invert(${value}%)`;
       break;
     case 'phobos':
-      imgPreview.style.filter = `blur(${value}px)`; // Добавлена строка
+      imgPreview.style.filter = `blur(${value}px)`;
       break;
     case 'heat':
-      imgPreview.style.filter = `brightness(${value})`; // Добавлена строка
+      imgPreview.style.filter = `brightness(${value})`;
       break;
     case 'none':
       break;
@@ -31,8 +34,12 @@ function updateImageStyle(effect, value) {
 
 
 function createSlider(options) {
+  // Полностью очищаем слайдер, если он существует
   if (slider) {
     slider.destroy();
+    while (effectsSlider.firstChild) {
+      effectsSlider.removeChild(effectsSlider.firstChild);
+    }
   }
 
   slider = noUiSlider.create(effectsSlider, {
@@ -69,17 +76,24 @@ function getSelectedEffect() {
   return 'none';
 }
 
+function initSlider() {
+  effectLevelContainer.style.display = 'none'; // Скрываем контейнер изначально
+  createSlider({ range: { min: 0, max: 1 }, start: 1, step: 0.1 }); // Создаем слайдер с опциями по умолчанию
+}
+
 effectsList.forEach((radio) => {
   radio.addEventListener('change', () => {
     const selectedEffect = getSelectedEffect();
-    const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 
     if (selectedEffect === 'none') {
       effectLevelContainer.style.display = 'none';
       if (slider) {
         slider.destroy();
+        while (effectsSlider.firstChild) {
+          effectsSlider.removeChild(effectsSlider.firstChild);
+        }
       }
-      updateImageStyle('none', 1);
+      imgPreview.style.filter = '';
       effectsValue.value = 1;
     } else {
       effectLevelContainer.style.display = 'block';
@@ -106,6 +120,17 @@ effectsList.forEach((radio) => {
   });
 });
 
-const effectNone = document.getElementById('effect-none');
-effectNone.checked = true;
-effectNone.dispatchEvent(new Event('change'));
+document.addEventListener('DOMContentLoaded', initSlider);
+
+export function resetEffects() {
+  effectNone.checked = true;
+  effectNone.dispatchEvent(new Event('change'));
+  imgPreview.style.filter = '';
+  if (slider) {
+    slider.destroy();
+    while (effectsSlider.firstChild) {
+      effectsSlider.removeChild(effectsSlider.firstChild);
+    }
+  }
+  effectsValue.value = 1;
+}

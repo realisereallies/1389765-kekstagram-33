@@ -6,9 +6,10 @@ const getRandomInteger = (a, b) => {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
+
 const isEscape = (evt) => evt.key === 'Escape';
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
+const compareComments = (a, b) => b.comments.length - a.comments.length;
 
 const handleEscape = (evt) => {
   if (evt.key === 'Escape') {
@@ -25,13 +26,14 @@ const handleEscape = (evt) => {
   }
 };
 
-const sortArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
+
+const sortArray = (arrays) => {
+  for (let i = arrays.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arrays[i], arrays[j]] = [arrays[j], arrays[i]];
   }
-  return array;
+  return arrays;
 };
-const compareComments = (a, b) => b.comments.length - a.comments.length;
+
 
 export {getRandomInteger, getRandomArrayElement,isEscape, handleEscape,sortArray, compareComments};
