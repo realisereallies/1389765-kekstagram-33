@@ -76,7 +76,7 @@ function getSelectedEffect() {
   return 'none';
 }
 
-function initSlider() {
+function sliderInitHandler() {
   effectLevelContainer.style.display = 'none'; // Скрываем контейнер изначально
   createSlider({ range: { min: 0, max: 1 }, start: 1, step: 0.1 }); // Создаем слайдер с опциями по умолчанию
 }
@@ -120,7 +120,7 @@ effectsList.forEach((radio) => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', initSlider);
+document.addEventListener('DOMContentLoaded', sliderInitHandler);
 
 export function resetEffects() {
   effectNone.checked = true;
