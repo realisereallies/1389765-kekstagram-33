@@ -1,5 +1,5 @@
 
-import { GET_DATA_LINK, SEND_DATA_LINK } from './data';
+import { GET_DATA_LINK, SEND_DATA_LINK } from './constants';
 
 export const getData = () => fetch(
   GET_DATA_LINK)

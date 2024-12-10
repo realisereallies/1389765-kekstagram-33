@@ -1,6 +1,5 @@
 import { renderPictures } from './render-image';
-import { debounce } from './data.js';
-import { sortArray, compareComments } from './util';
+import { sortArray, compareComments, debounce } from './util';
 
 const imageFiltersButtons = document.querySelectorAll('.img-filters__button');
 let currentPictures = []; // Глобальная переменная для хранения текущего массива изображений

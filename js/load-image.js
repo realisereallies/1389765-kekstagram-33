@@ -1,7 +1,7 @@
 import {isEscape} from './util.js';
 import {clearForm} from './dispatch-status.js';
 import { resetEffects } from './effects-control.js';
-import {FILE_TYPES} from './data.js';
+import {FILE_TYPES} from './constants.js';
 
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = document.querySelector('.img-upload__input');

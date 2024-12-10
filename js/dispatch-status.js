@@ -1,6 +1,6 @@
 import {uploadForm, pristine, overlayCloseHandler, hashtagsInput, commentInput} from './load-image.js';
 import {sendData} from './api.js';
-import {handleEscape} from './util.js';
+import {escapeCloseHandler} from './util.js';
 import { scaleValueInput, resetScale } from './scale-control.js';
 import { resetEffects } from './effects-control.js';
 
@@ -8,30 +8,30 @@ import { resetEffects } from './effects-control.js';
 const successTemplate = document.querySelector('#success');
 const errorTemplate = document.querySelector('#error');
 
-const createMessage = (template, className, closeFunction) => {
+const createMessage = (template, className, buttonCloseHandler) => {
   const message = template.content.cloneNode(true).querySelector(`.${className}`);
   const button = message.querySelector(`.${className}__button`);
-  button.addEventListener('click', closeFunction);
+  button.addEventListener('click', buttonCloseHandler);
   message.addEventListener('click', (evt) => {
     if (evt.target === message) {
-      closeFunction();
+      buttonCloseHandler();
     }
   });
   return message;
 };
 
-export const handleOutsideClick = (evt) => {
+export const outsideClickHandler = (evt) => {
   const error = document.querySelector('.error');
   const success = document.querySelector('.success');
   if (error && !error.contains(evt.target)) {
     error.remove();
-    document.removeEventListener('keydown', handleEscape);
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', escapeCloseHandler);
+    document.removeEventListener('click', outsideClickHandler);
   }
   if (success && !success.contains(evt.target)) {
     success.remove();
-    document.removeEventListener('keydown', handleEscape);
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', escapeCloseHandler);
+    document.removeEventListener('click', outsideClickHandler);
   }
 };
 export const clearForm = () => {
@@ -47,8 +47,8 @@ export const clearForm = () => {
 const showSuccessMessage = () => {
   const successMessage = createMessage(successTemplate, 'success', () => {
     successMessage.remove();
-    document.removeEventListener('keydown', handleEscape);
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', escapeCloseHandler);
+    document.removeEventListener('click', outsideClickHandler);
     clearForm();
   });
 
@@ -58,22 +58,22 @@ const showSuccessMessage = () => {
   messageContainer.appendChild(successMessage);
   document.body.appendChild(messageContainer);
 
-  document.addEventListener('keydown', handleEscape);
-  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('keydown', escapeCloseHandler);
+  document.addEventListener('click', outsideClickHandler);
 };
 
 
 export const showErrorMessage = (message) => {
   const errorElement = createMessage(errorTemplate, 'error', () => {
     errorElement.remove();
-    document.removeEventListener('keydown', handleEscape);
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', escapeCloseHandler);
+    document.removeEventListener('click', outsideClickHandler);
   });
   const errorTitle = errorElement.querySelector('.error__title');
   errorTitle.textContent = message;
   document.body.appendChild(errorElement);
-  document.addEventListener('keydown', handleEscape);
-  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('keydown', escapeCloseHandler);
+  document.addEventListener('click', outsideClickHandler);
 };
 
 

@@ -1,17 +1,10 @@
-import {handleOutsideClick} from './dispatch-status.js';
+import {outsideClickHandler} from './dispatch-status.js';
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
 
 const isEscape = (evt) => evt.key === 'Escape';
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 const compareComments = (a, b) => b.comments.length - a.comments.length;
 
-const handleEscape = (evt) => {
+const escapeCloseHandler = (evt) => {
   if (evt.key === 'Escape') {
     const error = document.querySelector('.error');
     const success = document.querySelector('.success');
@@ -21,8 +14,8 @@ const handleEscape = (evt) => {
     if (success) {
       success.remove();
     }
-    document.removeEventListener('keydown', handleEscape);
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', escapeCloseHandler);
+    document.removeEventListener('click', outsideClickHandler);
   }
 };
 
@@ -35,5 +28,12 @@ const sortArray = (arrays) => {
   return arrays;
 };
 
+export function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
 
-export {getRandomInteger, getRandomArrayElement,isEscape, handleEscape,sortArray, compareComments};
+export {isEscape, escapeCloseHandler,sortArray, compareComments};
