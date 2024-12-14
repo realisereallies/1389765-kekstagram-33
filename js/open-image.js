@@ -1,6 +1,7 @@
 import { renderComments } from './render-comment.js';
 import { isEscape } from './util.js';
 
+const COMMENTS_TO_LOAD = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureClose = document.querySelector('.big-picture__cancel');
 const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
@@ -12,7 +13,6 @@ const socialCommentShownCount = document.querySelector('.social__comment-shown-c
 const socialComment = document.querySelector('.social__caption');
 const body = document.querySelector('body');
 
-const COMMENTS_TO_LOAD = 5;
 let loadedComments = 0;
 let currentImageData;
 
